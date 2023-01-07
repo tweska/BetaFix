@@ -1,0 +1,11 @@
+--- a/net/minecraft/src/NetClientHandler.java
++++ b/net/minecraft/src/NetClientHandler.java
+@@ -384,7 +384,7 @@
+ 			this.addToSendQueue(new Packet1Login(this.mc.session.username, 14));
+ 		} else {
+ 			try {
+-				URL uRL2 = new URL("http://www.minecraft.net/game/joinserver.jsp?user=" + this.mc.session.username + "&sessionId=" + this.mc.session.sessionId + "&serverId=" + packet2Handshake1.username);
++				URL uRL2 = new URL("http://session.minecraft.net/game/joinserver.jsp?user=" + this.mc.session.username + "&sessionId=" + this.mc.session.sessionId + "&serverId=" + packet2Handshake1.username);
+ 				BufferedReader bufferedReader3 = new BufferedReader(new InputStreamReader(uRL2.openStream()));
+ 				String string4 = bufferedReader3.readLine();
+ 				bufferedReader3.close();
