@@ -1,0 +1,110 @@
+--- /dev/null
++++ b/net/sweetcraft/betafix/BetaFix.java
+@@ -1,0 +1,107 @@
++package net.sweetcraft.betafix;
++
++import java.io.BufferedReader;
++import java.io.IOException;
++import java.io.InputStream;
++import java.io.InputStreamReader;
++import java.net.URL;
++import java.nio.charset.StandardCharsets;
++import java.util.Base64;
++import java.util.HashMap;
++
++public final class BetaFix {
++    private static final HashMap<String, BetaFixPlayer> players = new HashMap<>();
++
++    public static String getSkinURL(String username) {
++        BetaFixPlayer player = getPlayer(username);
++        if (player == null) {
++            return "https://assets.mojang.com/SkinTemplates/steve.png";
++        }
++        return player.skinURL;
++    }
++
++    public static String getCapeURL(String username) {
++        BetaFixPlayer player = getPlayer(username);
++        if (player == null) {
++            return null;
++        }
++        return player.capeURL;
++    }
++
++    private static BetaFixPlayer getPlayer(String username) {
++        /* Check if the player is cached. */
++        if (players.containsKey(username)) {
++            return players.get(username);
++        }
++
++        /* Get the UUID of the player with the given username. */
++        String json = httpGetClean("https://api.mojang.com/users/profiles/minecraft/" + username);
++        String uuid = getJsonField(json, "id");
++        if (uuid == null) {
++            return null;
++        }
++
++        /* Get the profile given the UUID of the player. */
++        json = httpGetClean("https://sessionserver.mojang.com/session/minecraft/profile/" + uuid);
++
++        /* Extract the value field and decode it. */
++        String valueEncoded = getJsonField(json, "value");
++        if (valueEncoded == null) {
++            return null;
++        }
++        String valueDecoded = clean(new String(Base64.getDecoder().decode(valueEncoded.getBytes())));
++
++        /* Extract the skin and cape URL. */
++        String skinURL = getJsonField(valueDecoded, "SKIN\":{\"url");
++        String capeURL = getJsonField(valueDecoded, "CAPE\":{\"url");
++        if (skinURL == null) {
++            return null;
++        }
++
++        /* Change the protocol. */
++        skinURL = skinURL.replace("http://", "https://");
++        if (capeURL != null) {
++            capeURL = capeURL.replace("http://", "https://");
++        }
++
++        /* Create and cache the player before returning it. */
++        BetaFixPlayer player = new BetaFixPlayer(username, uuid, skinURL, capeURL);
++        players.put(username, player);
++        return player;
++
++    }
++
++    private static String getJsonField(String json, String field) {
++        int len = field.length() + 4;
++        int i = json.indexOf("\"" + field + "\":\"");
++        if (i == -1) {
++            return null;
++        }
++        int j = json.indexOf("\"", i+len);
++        return json.substring(i+len, j);
++    }
++
++    private static String clean(String str) {
++        return str.replaceAll("\n", "").replaceAll(" ", "");
++    }
++
++    private static String httpGet(String url) throws IOException {
++        InputStream stream = new URL(url).openStream();
++        BufferedReader reader = new BufferedReader(new InputStreamReader(stream, StandardCharsets.UTF_8));
++
++        StringBuilder stringBuilder = new StringBuilder();
++        int data;
++        while((data = reader.read()) != -1) {
++            stringBuilder.append((char) data);
++        }
++        return stringBuilder.toString();
++    }
++
++    private static String httpGetClean(String url) {
++        try {
++            return clean(httpGet(url));
++        } catch (IOException e) {
++            return "";
++        }
++    }
++}

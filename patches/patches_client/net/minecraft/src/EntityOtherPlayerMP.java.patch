@@ -1,0 +1,19 @@
+--- a/net/minecraft/src/EntityOtherPlayerMP.java
++++ b/net/minecraft/src/EntityOtherPlayerMP.java
+@@ -1,5 +1,7 @@
+ package net.minecraft.src;
+ 
++import net.sweetcraft.betafix.BetaFix;
++
+ public class EntityOtherPlayerMP extends EntityPlayer {
+ 	private int field_785_bg;
+ 	private double field_784_bh;
+@@ -15,7 +17,7 @@
+ 		this.yOffset = 0.0F;
+ 		this.stepHeight = 0.0F;
+ 		if(string2 != null && string2.length() > 0) {
+-			this.skinUrl = "http://s3.amazonaws.com/MinecraftSkins/" + string2 + ".png";
++			this.skinUrl = BetaFix.getSkinURL(string2);
+ 		}
+ 
+ 		this.noClip = true;

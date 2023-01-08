@@ -1,0 +1,19 @@
+--- a/net/minecraft/src/EntityPlayer.java
++++ b/net/minecraft/src/EntityPlayer.java
+@@ -1,5 +1,7 @@
+ package net.minecraft.src;
+ 
++import net.sweetcraft.betafix.BetaFix;
++
+ import java.util.Iterator;
+ import java.util.List;
+ 
+@@ -133,7 +135,7 @@
+ 	}
+ 
+ 	public void updateCloak() {
+-		this.playerCloakUrl = "http://s3.amazonaws.com/MinecraftCloaks/" + this.username + ".png";
++		this.playerCloakUrl = BetaFix.getCapeURL(this.username);
+ 		this.cloakUrl = this.playerCloakUrl;
+ 	}
+ 

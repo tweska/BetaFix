@@ -1,0 +1,18 @@
+--- /dev/null
++++ b/net/sweetcraft/betafix/BetaFixPlayer.java
+@@ -1,0 +1,15 @@
++package net.sweetcraft.betafix;
++
++public class BetaFixPlayer {
++    public String username;
++    public String uuid;
++    public String skinURL;
++    public String capeURL;
++
++    public BetaFixPlayer(String username, String uuid, String skinURL, String capeURL) {
++        this.username = username;
++        this.uuid = uuid;
++        this.skinURL = skinURL;
++        this.capeURL = capeURL;
++    }
++}
