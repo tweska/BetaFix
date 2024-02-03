@@ -8,7 +8,7 @@ a user do not have control over the proxy. With BetaFix you can verify and
 build the mod yourself!
 
 ## Ingame screenshot
-![Ingame screenshot with working skin and cape.](https://sweetcraft.net/files/github-assets/betafix/ingame-screenshot.png)
+![Ingame screenshot with working skin and cape.](https://2sk.nl/files/github-assets/betafix/ingame-screenshot.png)
 
 ## Build instructions
 To build the mod from scratch, simply run:
@@ -28,7 +28,7 @@ instructions:
 4. BetaFix is now installed as a JAR-mod, the `Version` tab should look like
 this:
 
-![MultiMC Version tab with BetaFix installed.](https://sweetcraft.net/files/github-assets/betafix/multimc-screenshot.png)
+![MultiMC Version tab with BetaFix installed.](https://2sk.nl/files/github-assets/betafix/multimc-screenshot.png)
 
 ## Acknowledgements
 The creation of this fix was made very easy thanks to the
